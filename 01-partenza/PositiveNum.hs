@@ -39,35 +39,39 @@ add (XO x) (XI y) = XI (add x y)
 add (XI x) (XO y) = XI (add x y)
 add (XI x) (XI y) = XO (succ (add x y))
 
--- casi base
-{-
--- casi induttivi
--- 2m+1 + 1 == ... 
--- 2m + 2n == ... 
--- 2m + 2n+1 == ...
--- 2m+1 + 2n+1 == ...
--- 2m+1 + 2n == ...
 
 mul:: Positive -> Positive -> Positive
-...
-
-
+mul XH y     = y
+mul (XO x) y = XO (mul x y)
+mul (XI x) y = add y (XO (mul x y))
 
 -- propedeutico alla definizione di sub
 data Mask where
   IsNeg :: Mask
   IsNul :: Mask
   IsPos :: Positive -> Mask
-  deriving (Show, 
-            Eq) -- necessario per testing
+  deriving (Show, Eq) -- necessario per testing (positive need eq)
+
 
 sub :: Positive -> Positive -> Mask
-...
--- tre casi base
+sub XH XH       = IsNul
+sub XH _        = IsNeg
+sub m XH       = IsPos (pred m)
+-- Induttivo
+sub (XI x) (XO y) = case sub x y of 
+                      IsNeg -> IsNeg 
+                      IsNul -> IsPos XH
+                      (IsPos d) -> IsPos (XI d)
+sub (XO x) (XI y) = case sub x y of 
+                      IsNeg -> IsNeg 
+                      IsNul -> IsNeg
+                      (IsPos d) -> IsPos (pred (XO d))
+sub (XO x) (XO y) = case sub x y of 
+                      IsNeg -> IsNeg 
+                      IsNul -> IsNul
+                      (IsPos d) -> IsPos (XO d)
+sub (XI x) (XI y) = case sub x y of 
+                      IsNeg -> IsNeg 
+                      IsNul -> IsNul
+                      (IsPos d) -> IsPos (XO d)
 
--- casi induttivi
--- 2m - 2n == ...
--- (2m+1) - 2n == ...
--- (2m) - (2n+1) == ...
--- (2m+1) - (2n+1) == ...
--}
