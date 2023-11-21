@@ -1,5 +1,5 @@
 module PositiveNumVsInteger where
-    
+
 import PositiveNum ( Positive( .. ) )
 
 -- Conversioni Positive

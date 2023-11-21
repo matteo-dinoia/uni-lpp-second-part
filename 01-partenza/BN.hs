@@ -37,8 +37,8 @@ mul:: BN -> BN -> BN
 -- un caso "induttivo"
 
 -- altre funzioni
-negate :: BN -> BN  
-negate x = x  
+negate :: BN -> BN
+negate x = x
 
 abs :: BN -> BN
 abs x = x
@@ -54,7 +54,7 @@ fromInteger n | n <= 0    = ...
 -- necessario per il testing
 instance Eq BN where
   (==) :: BN -> BN -> Bool
-    ...  
+    ...
   (/=) :: BN -> BN -> Bool
     ...
 -}

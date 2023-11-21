@@ -63,7 +63,7 @@ sub (XI x) (XO y) = case sub x y of
                       IsNul -> IsPos XH
                       (IsPos d) -> IsPos (XI d)
 sub (XO x) (XI y) = case sub x y of 
-                      IsNeg -> IsNeg 
+                      IsNeg -> IsNeg
                       IsNul -> IsNeg
                       (IsPos d) -> IsPos (pred (XO d))
 sub (XO x) (XO y) = case sub x y of 

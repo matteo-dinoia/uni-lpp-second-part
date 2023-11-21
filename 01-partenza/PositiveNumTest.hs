@@ -3,12 +3,12 @@ module PositiveNumTest where
 import HelperTest (terneFX, errListFX, terneFXY, errListFXY)
 
 import PositiveNumVsInteger ( int2Pos )
-import PositiveNum ( Positive( .. ), 
-                     Mask( .. ), 
-                     succ, 
-                     add, 
-                     pred, 
-                     sub, 
+import PositiveNum ( Positive( .. ),
+                     Mask( .. ),
+                     succ,
+                     add,
+                     pred,
+                     sub,
                      mul
                      )
 import qualified PositiveNum as PN
