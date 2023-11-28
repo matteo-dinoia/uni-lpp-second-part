@@ -58,20 +58,27 @@ sub XH XH       = IsNul
 sub XH _        = IsNeg
 sub m XH       = IsPos (pred m)
 -- Induttivo
-sub (XI x) (XO y) = case sub x y of 
-                      IsNeg -> IsNeg 
+sub (XI x) (XO y) = case sub x y of
+                      IsNeg -> IsNeg
                       IsNul -> IsPos XH
                       (IsPos d) -> IsPos (XI d)
-sub (XO x) (XI y) = case sub x y of 
+sub (XO x) (XI y) = case sub x y of
                       IsNeg -> IsNeg
                       IsNul -> IsNeg
                       (IsPos d) -> IsPos (pred (XO d))
-sub (XO x) (XO y) = case sub x y of 
-                      IsNeg -> IsNeg 
+sub (XO x) (XO y) = case sub x y of
+                      IsNeg -> IsNeg
                       IsNul -> IsNul
                       (IsPos d) -> IsPos (XO d)
-sub (XI x) (XI y) = case sub x y of 
-                      IsNeg -> IsNeg 
+sub (XI x) (XI y) = case sub x y of
+                      IsNeg -> IsNeg
                       IsNul -> IsNul
                       (IsPos d) -> IsPos (XO d)
 
+
+
+instance Ord Positive where
+  (<=) a b = case sub a b of
+              IsNeg -> True
+              IsNul -> True
+              (IsPos a) -> False

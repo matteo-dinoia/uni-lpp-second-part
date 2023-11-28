@@ -58,9 +58,7 @@ add :: BN -> BN -> BN
 add x y = (fmap PN.add x) <*> y
 
 add' :: BN -> BN -> BN
-add' N0 b = b
-add' a N0 = a
-add' a b  = liftA2 PN.add a b
+add'  = liftA2 PN.add
 
 sub :: BN -> BN -> BN
 sub a b  = case liftA2 PN.sub a b  of
@@ -83,8 +81,14 @@ instance Num BN where
   fromInteger 0 = N0
   fromInteger x = Npos (int2Pos x)
 
--- instance Eq BN where
+instance Eq BN where
+  (==) N0 N0             = True
+  (==) (Npos a) (Npos b) = (==) a b
 
--- instance Ord BN where
+instance Ord BN where
+  (<=) N0 _              = True
+  (<=) _ N0              = False
+  (<=) (Npos a) (Npos b) = (<=) a b
+
 
 -- div :: BN -> BN -> BN
