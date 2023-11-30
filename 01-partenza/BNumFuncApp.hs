@@ -8,8 +8,7 @@ module BNumFuncApp where
 import Prelude hiding (succ, pred, div)
 import PositiveNum( Mask( .. ), Positive( .. ), succ, add, pred, sub, mul)
 import qualified PositiveNum as PN
-import PositiveNumVsInteger ( int2Pos )
-import qualified PositiveNumVsInteger as PNI
+import PositiveNumVsInteger ( int2Pos, pos2Int )
 -- import PositiveNumOrder ( )
 import GHC.Base ( Applicative ( .. ) )
 
@@ -91,4 +90,24 @@ instance Ord BN where
   (<=) (Npos a) (Npos b) = (<=) a b
 
 
--- div :: BN -> BN -> BN
+
+div :: BN -> BN -> BN
+div a b = (\(c,d) -> c)(div_rem a b)
+
+div_rem :: BN -> BN -> (BN, BN)
+div_rem N0 _              = (N0, N0)
+div_rem _ N0              = (N0, N0)
+div_rem (Npos a) (Npos b) = case PN.sub a b of
+                                IsNul       -> (Npos XH, N0)
+                                IsNeg       -> (N0, Npos a)
+                                (IsPos dif) -> (\(d,r) -> (BNumFuncApp.succ d, r) ) (div_rem (Npos (dif)) (Npos b))
+
+{-
+-- Conversioni.
+bN2Int :: BN -> Integer
+bN2Int  N0      = 0
+bN2Int (Npos p) = pos2Int p
+
+int2BN :: Integer -> BN
+int2BN  = fromInteger
+-}
