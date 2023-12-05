@@ -25,8 +25,7 @@ instance Applicative ID where
 
 instance Monad ID where
   (>>=) :: ID a -> (a -> ID b) -> ID b
-  (>>=) x f = let Id v = x in f v
-
+  (>>=) (Id v) f = f v
   return :: a -> ID a
   return = pure
 
