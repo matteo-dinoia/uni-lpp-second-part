@@ -63,10 +63,10 @@ Definition pure  {a : Set} (x : a): E a := Return _ x.
 (** Applica (da qui il nome "Applicative"?) una funzione
 incapsulata ad un valore incapsulato: *)
 Definition star {a b : Set} (f: E (a -> b))(x : E a) : E b :=
-  match (f, x) with
-  | (Rise _ er, _) => Rise _ er
-  | (_, Rise _ er) => Rise _ er
-  | (Return _ v1, Return _ v2) => Return _ (v1 v2)
+  match f, x with
+  | Rise _ er, _ => Rise _ er
+  | _, Rise _ er => Rise _ er
+  | Return _ vf, Return _ vx => Return _ (vf vx)
   end.
 
 

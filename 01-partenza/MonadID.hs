@@ -1,6 +1,8 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use =<<" #-}
 {-# HLINT ignore "Redundant lambda" #-}
+{-# LANGUAGE InstanceSigs #-}
+
 
 module MonadID where
 
