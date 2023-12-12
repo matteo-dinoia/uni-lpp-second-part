@@ -78,15 +78,26 @@ Qed.
 *)
 Theorem not_eq_SnSm_nm : forall n m : nat,
   S n = S m -> n <> m -> False.
-Proof. unfold not.
-Admitted.
+Proof.
+  intros m n Heq Hneq.
+  inversion Heq.
+  unfold not in Hneq.
+  apply Hneq. (**Goal diventa m = n*)
+  assumption.
+Qed.
 
 (** - [destruct] per scomporre la congiunzione in un'assunzione
     - [rewrite] per trasformare un termine in un altro, essendo nota una equivalenza *)
 Theorem not_eq_with_and : forall n m : nat,
   S n = S m /\ n <> m -> False.
 Proof.
-Admitted.
+  intros. (** - [destruct] per scomporre la congiunzione *)
+  destruct H as (Hl, Hr).
+  inversion Hl.
+  apply Hr. (** Goal diventa m = n *)
+  rewrite H0. (** Goal m = m *)
+  reflexivity.
+Qed.
 
 
 (*********************************** *)
@@ -104,30 +115,50 @@ Fixpoint pred_of_double x :=
     - [rewrite] dell'ipotesi induttiva *)
 Lemma pred_double_specification: forall (p: PositiveNum.Positive),
   pred_of_double p = PositiveNum.pred (PositiveNum.XO p).
-Admitted.
+Proof.
+  induction p as [p' IH | p' IH | ].
+    3: { simpl. reflexivity. }
+    - simpl. reflexivity.
+    - simpl. rewrite IH. reflexivity.
+Qed.
+
 
 (******************** *)
 (** ** ESERCIZI       *)
 
+
+
 Lemma succ_pred_of_double: forall (p: PositiveNum.Positive),
   PositiveNum.succ (pred_of_double p) = PositiveNum.XO p.
-Admitted.
+Proof. intros.
+ induction p as [p1 IH | p2 IH |].
+  -simpl. reflexivity.
+  -simpl. rewrite IH. reflexivity.
+  -simpl. reflexivity.
+Qed.
 
 Lemma pred_of_double_succ: forall (p: PositiveNum.Positive),
   pred_of_double (PositiveNum.succ p) = PositiveNum.XI p.
-Admitted.
+Proof. intros.
+  induction p as [p1 IH | p2 IH |].
+  -simpl. rewrite IH. reflexivity.
+  -simpl. reflexivity.
+  -simpl. reflexivity.
+Qed.
 
 Lemma double_of_succ: forall (p: PositiveNum.Positive),
   PositiveNum.XO (PositiveNum.succ p) = PositiveNum.succ (PositiveNum.succ (PositiveNum.XO p)).
-Admitted.
+Proof. intros. simpl. reflexivity.
+Qed.
 
 Lemma pred_of_double_xO_discr: forall (p: PositiveNum.Positive),
   pred_of_double p <> PositiveNum.XO p.
-Admitted.
+Proof. intros. destruct p as [p1 | p2 |]; simpl; discriminate.
+Qed.
 
 Lemma succ_not_1: forall (p: PositiveNum.Positive),
   PositiveNum.succ p <> PositiveNum.XH.
-Admitted.
-(** [] *)
+Proof. intros. destruct p as [p1 | p2 | ];discriminate.
+Qed.
 
 End PositiveNumProperties00.
